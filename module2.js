@@ -1,4 +1,4 @@
-const calculator=require('./module1')
+const calculator=require('./Calculator')
 
 calculator.substraction(10,4);
 calculator.addition(14,3)

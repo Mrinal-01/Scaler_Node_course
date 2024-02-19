@@ -19,6 +19,11 @@ const app=express();
 
 // get, post, put, delete etc methods
 
+//This array is for route parameter:-
+const courses=[{id:1, name:"Javascript"},
+{id:2, name:"Java"},
+{id:3, name:"Python"}]
+
 //it used to access some data from a particular resourse
 //it can be database, can be a api
 //It take 2 arguments:- 1. its route from where data to be acessed
@@ -85,6 +90,45 @@ u are working.
 */
 
 const port=process.env.PORT||5500
+
+
+
+/*
+Route Parameter:- Using Id's
+where the id's value will store for that we have to use 
+param operator
+*/
+// app.get('/contact/:id',(req,res)=>{
+//     // console.log(req.params);
+
+//     res.send(req.params.id)
+
+// })
+
+
+
+//Accessing route parameter from array:-
+
+app.get('/courses/:id',(req,res)=>{
+    console.log(req.params);
+    let course=courses.find(course=>course.id===parseInt(req.params.id))
+    
+    if(!course) res.status(404).send("The course not exists")
+    res.send(course)
+})
+
+// app.get('/courses/:coursename',(req,res)=>{
+//     console.log(req.params.coursename);
+//     let course=courses.find(course=>course.name===req.params.coursename)
+//     res.send(course)
+// })
+
+/*
+    Sometimes we search for a course which not available that time it will
+    return a blank page for that how we will handle this, for that we 
+    have some status code:-
+    404 :- The resource is not available
+*/
 
 
 app.listen(port,(err)=>{

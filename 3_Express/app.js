@@ -10,34 +10,39 @@ Features:- Fast and robust applications
 
 //As it is therd party package we have to import it
 // The pakage return as a function
-const express =require('express')
+const express = require('express')
 
 //this function will return a lot of methods to get 
 //those methods we have to call the method like below:-
 //when we use app it will give access to all the methods
-const app=express();
+const app = express();
+
+//Middleware:-
+app.use(express.json())
 
 // get, post, put, delete etc methods
 
 //This array is for route parameter:-
-const courses=[{id:1, name:"Javascript"},
-{id:2, name:"Java"},
-{id:3, name:"Python"}]
+let courses = [
+    { id: 1, name: "Javascript" },
+    { id: 2, name: "Java" },
+    { id: 3, name: "Python" }
+]
 
 //it used to access some data from a particular resourse
 //it can be database, can be a api
 //It take 2 arguments:- 1. its route from where data to be acessed
 //                      2. 2 objects req, res
-app.get('/',(req,res)=>{
+app.get('/', (req, res) => {
     res.send("Hello this first Express app!")
 })
 
 //Lets create a different route to a different address
-app.get('/about',(req,res)=>{
+app.get('/about', (req, res) => {
     res.send("We created a about")
 })
 
-app.get('/contact',(req,res)=>{
+app.get('/contact', (req, res) => {
     res.send("Contact us at abcd.com")
 })
 /*
@@ -89,7 +94,7 @@ This variable value will change according to the env
 u are working.
 */
 
-const port=process.env.PORT||5500
+const port = process.env.PORT || 5500
 
 
 
@@ -109,13 +114,13 @@ param operator
 
 //Accessing route parameter from array:-
 
-app.get('/courses/:id',(req,res)=>{
-    console.log(req.params);
-    let course=courses.find(course=>course.id===parseInt(req.params.id))
-    
-    if(!course) res.status(404).send("The course not exists")
-    res.send(course)
-})
+// app.get('/courses/:id',(req,res)=>{
+//     console.log(req.params);
+//     let course=courses.find(course=>course.id===parseInt(req.params.id))
+
+//     if(!course) res.status(404).send("The course not exists")
+//     res.send(course)
+// })
 
 // app.get('/courses/:coursename',(req,res)=>{
 //     console.log(req.params.coursename);
@@ -131,7 +136,63 @@ app.get('/courses/:id',(req,res)=>{
 */
 
 
-app.listen(port,(err)=>{
-    if(err) console.log(err);
+
+
+//POST method check
+
+app.get('/courses', (req, res) => {
+    res.send(courses)
+})
+
+//POST Method:- In the above array we want to put new data 
+//for that we use POST method
+
+// app.post('/courses', (req, res) => {
+//     const course = {
+//         id: courses.length + 1,
+//         name: req.body.name
+//     }
+//     courses.push(course)
+//     res.send(course)
+// })
+
+//PUT method:- To update already existing entity
+
+// app.put('/courses/:coursename', (req, res) => {
+    
+    
+//     let course=courses.find(course=> course.name===req.params.coursename)
+//     if(!course) res.status(404).send("The course is not exists")
+
+//     course.name = req.body.name
+//     res.send(course)
+// })
+
+
+
+// Delete data using delete method
+
+app.delete('/courses/:coursename',(req,res)=>{
+    let updatedArr=courses.filter(course=>course.name!==req.params.coursename)
+    courses=updatedArr;
+    res.send(courses)
+})
+
+
+
+//Delete Using id
+
+// app.delete('/courses/:id',(req,res)=>{
+//     let  course=courses.find(course=>course.id===parseInt(req.params.id))
+//     if(!course) res.status(404).send("The course not exists")
+//     const index=courses.indexOf(course)
+//     courses.splice(index,1)
+
+//     res.send(course)
+// })
+
+
+app.listen(port, (err) => {
+    if (err) console.log(err);
     console.log(`Application is running in port no ${port}`);
 })

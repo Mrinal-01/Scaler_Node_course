@@ -11,7 +11,11 @@ Features:- Fast and robust applications
 //As it is therd party package we have to import it
 // The pakage return as a function
 const express = require('express')
+const morgan=require('morgan')
 
+const myMiddlewareFunction=require('./middleware/middle')
+
+const myMiddlewareFunction2=require('./middleware/middle_2')
 //this function will return a lot of methods to get 
 //those methods we have to call the method like below:-
 //when we use app it will give access to all the methods
@@ -19,6 +23,16 @@ const app = express();
 
 //Middleware:-
 app.use(express.json())
+
+//Custom Middleware:-
+
+app.use(myMiddlewareFunction)
+
+app.use(myMiddlewareFunction2)
+
+//Third party Middleware
+
+app.use(morgan('tiny'))
 
 // get, post, put, delete etc methods
 
